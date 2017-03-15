@@ -7,10 +7,13 @@
 package org.mule.services.soap.impl.metadata;
 
 import org.mule.metadata.api.TypeLoader;
+import org.mule.runtime.api.metadata.MetadataKey;
 import org.mule.runtime.api.metadata.MetadataResolvingException;
 import org.mule.services.soap.api.client.metadata.SoapMetadataResolver;
 import org.mule.services.soap.api.client.metadata.SoapOperationMetadata;
 import org.mule.services.soap.impl.introspection.WsdlIntrospecter;
+
+import java.util.Set;
 
 /**
  * Default immutable {@link SoapMetadataResolver} implementation.
@@ -25,11 +28,13 @@ public class DefaultSoapMetadataResolver implements SoapMetadataResolver {
   private final HeadersMetadataResolver headersResolver;
   private final BodyMetadataResolver bodyResolver;
   private final AttachmentsMetadataResolver attachmentsResolver;
+  private final KeysMetadataResolver keysResolver;
 
   public DefaultSoapMetadataResolver(WsdlIntrospecter introspecter, TypeLoader loader) {
     bodyResolver = new BodyMetadataResolver(introspecter, loader);
     headersResolver = new HeadersMetadataResolver(introspecter, loader);
     attachmentsResolver = new AttachmentsMetadataResolver(introspecter, loader);
+    keysResolver = new KeysMetadataResolver(introspecter, loader);
   }
 
   @Override
@@ -44,5 +49,10 @@ public class DefaultSoapMetadataResolver implements SoapMetadataResolver {
     return new ImmutableSoapOperationMetadata(bodyResolver.getMetadata(operation, outputDelegate),
                                               headersResolver.getMetadata(operation, outputDelegate),
                                               attachmentsResolver.getMetadata(operation, outputDelegate));
+  }
+
+  @Override
+  public Set<MetadataKey> getMetadataKeys() throws MetadataResolvingException {
+    return keysResolver.getMetadataKeys();
   }
 }

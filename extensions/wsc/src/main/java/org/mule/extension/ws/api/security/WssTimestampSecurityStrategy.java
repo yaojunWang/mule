@@ -26,7 +26,8 @@ import java.util.concurrent.TimeUnit;
  *
  * @since 4.0
  */
-public class WssTimestampSecurityStrategy implements SecurityStrategy {
+public class WssTimestampSecurityStrategy implements SecurityStrategyAdapter
+{
 
   /**
    * The time difference between creation and expiry time in seconds. After this time the message is invalid.

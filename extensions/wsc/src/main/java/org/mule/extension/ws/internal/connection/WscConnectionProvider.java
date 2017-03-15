@@ -6,8 +6,6 @@
  */
 package org.mule.extension.ws.internal.connection;
 
-import org.mule.extension.ws.api.SoapVersion;
-import org.mule.extension.ws.api.security.SecurityStrategy;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -15,21 +13,26 @@ import org.mule.runtime.api.connection.PoolingConnectionProvider;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.service.http.api.HttpService;
+import org.mule.services.soap.api.SoapService;
+import org.mule.services.soap.api.SoapVersion;
+import org.mule.services.soap.api.client.MessageDispatcher;
+import org.mule.services.soap.api.client.SoapClient;
+import org.mule.services.soap.api.client.SoapClientConfiguration;
+import org.mule.services.soap.api.security.SecurityStrategy;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 /**
- * {@link ConnectionProvider} that returns instances of {@link WscConnection}.
+ * {@link ConnectionProvider} that returns instances of {@link SoapClient}.
  *
  * @since 4.0
  */
-public class WscConnectionProvider implements PoolingConnectionProvider<WscConnection> {
+public class WscConnectionProvider implements PoolingConnectionProvider<SoapClient> {
 
   @Inject
-  private HttpService httpService;
+  private SoapService soapService;
 
   /**
    * The WSDL file URL remote or local.
@@ -82,35 +85,35 @@ public class WscConnectionProvider implements PoolingConnectionProvider<WscConne
   @Optional(defaultValue = "false")
   private boolean mtomEnabled;
 
+  @Parameter
+  @Optional
+  private MessageDispatcher messageDispatcher;
+
   /**
    * {@inheritDoc}
    */
   @Override
-  public WscConnection connect() throws ConnectionException {
-    return new WscConnection(wsdlLocation,
-                             address,
-                             service,
-                             port,
-                             soapVersion,
-                             mtomEnabled,
-                             securityStrategies,
-                             httpService,
-                             null);
+  public SoapClient connect() throws ConnectionException {
+    return soapService.getClientFactory().create(new SoapClientConfiguration(wsdlLocation, address,
+                                                                             service,
+                                                                             port,
+                                                                             soapVersion,
+                                                                             mtomEnabled,
+                                                                             securityStrategies,
+                                                                             messageDispatcher));
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void disconnect(WscConnection client) {
-    client.disconnect();
-  }
+  public void disconnect(SoapClient client) {}
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public ConnectionValidationResult validate(WscConnection client) {
-    return client.validateConnection();
+  public ConnectionValidationResult validate(SoapClient client) {
+    return ConnectionValidationResult.success();
   }
 }

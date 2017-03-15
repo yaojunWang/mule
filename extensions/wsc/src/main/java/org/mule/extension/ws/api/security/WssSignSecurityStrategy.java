@@ -28,7 +28,8 @@ import org.apache.ws.security.handler.WSHandlerConstants;
  *
  * @since 4.0
  */
-public class WssSignSecurityStrategy implements SecurityStrategy {
+public class WssSignSecurityStrategy implements SecurityStrategyAdapter
+{
 
   private static final String WS_SIGN_PROPERTIES_KEY = "signProperties";
 

@@ -10,23 +10,24 @@ import static java.util.Optional.of;
 import static org.apache.ws.security.WSPasswordCallback.DECRYPT;
 import static org.apache.ws.security.handler.WSHandlerConstants.DEC_PROP_REF_ID;
 import static org.apache.ws.security.handler.WSHandlerConstants.ENCRYPT;
-import static org.mule.extension.ws.internal.security.SecurityStrategyType.INCOMING;
-import org.mule.extension.ws.api.security.config.WssKeyStoreConfiguration;
-import org.mule.extension.ws.internal.security.SecurityStrategyType;
-import org.mule.extension.ws.internal.security.callback.WSPasswordCallbackHandler;
-import org.mule.runtime.extension.api.annotation.param.Parameter;
-
-import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 import java.util.Optional;
+
+import org.mule.extension.ws.api.security.config.WssKeyStoreConfiguration;
+import org.mule.runtime.extension.api.annotation.param.Parameter;
+import org.mule.services.soap.api.security.DecryptSecurityStrategy;
+import org.mule.services.soap.api.security.SecurityStrategy;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Decrypts an encrypted SOAP response, using the private key of the key-store in the provided TLS context.
  *
  * @since 4.0
  */
-public class WssDecryptSecurityStrategy implements SecurityStrategy {
+public class WssDecryptSecurityStrategy implements SecurityStrategyAdapter
+{
 
   private static final String WS_DECRYPT_PROPERTIES_KEY = "decryptProperties";
 
@@ -57,5 +58,12 @@ public class WssDecryptSecurityStrategy implements SecurityStrategy {
         .put(DEC_PROP_REF_ID, WS_DECRYPT_PROPERTIES_KEY)
         .put(WS_DECRYPT_PROPERTIES_KEY, keyStoreConfiguration.getConfigurationProperties())
         .build();
+  }
+
+  @Override
+  public SecurityStrategy getSecurityStrategy()
+  {
+    new WssKeyStoreConfiguration()
+    return new DecryptSecurityStrategy();
   }
 }

@@ -9,21 +9,24 @@ package org.mule.extension.ws.api.security.config;
 import static org.apache.ws.security.components.crypto.Merlin.TRUSTSTORE_FILE;
 import static org.apache.ws.security.components.crypto.Merlin.TRUSTSTORE_PASSWORD;
 import static org.apache.ws.security.components.crypto.Merlin.TRUSTSTORE_TYPE;
-import org.mule.runtime.extension.api.annotation.param.Optional;
-import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.runtime.extension.api.annotation.param.display.Password;
-import org.mule.runtime.extension.api.annotation.param.display.Summary;
 
 import java.util.Properties;
 
 import org.apache.ws.security.components.crypto.Merlin;
+
+import org.mule.runtime.extension.api.annotation.param.Optional;
+import org.mule.runtime.extension.api.annotation.param.Parameter;
+import org.mule.runtime.extension.api.annotation.param.display.Password;
+import org.mule.runtime.extension.api.annotation.param.display.Summary;
+import org.mule.services.soap.api.security.config.WssStoreConfiguration;
 
 /**
  * Default {@link WssStoreConfiguration} implementation for Trust Stores, used for signature verification.
  *
  * @since 4.0
  */
-public class WssTrustStoreConfiguration implements WssStoreConfiguration {
+public class WssTrustStoreConfiguration implements WssStoreConfiguration
+{
 
   @Parameter
   @Summary("The location of the TrsutStore file")

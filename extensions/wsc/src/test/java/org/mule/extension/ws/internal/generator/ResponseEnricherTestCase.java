@@ -10,13 +10,16 @@ import static org.mule.extension.ws.WscTestUtils.DOWNLOAD_ATTACHMENT;
 import static org.mule.extension.ws.WscTestUtils.assertSimilarXml;
 import static org.mule.extension.ws.WscTestUtils.getResponseResource;
 import static org.mule.extension.ws.internal.util.TransformationUtils.stringToDocument;
-import org.mule.extension.ws.WscUnitTestCase;
-import org.mule.extension.ws.internal.generator.attachment.AttachmentResponseEnricher;
 
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.ExchangeImpl;
 import org.junit.Test;
+
+import org.mule.extension.ws.WscUnitTestCase;
+import org.mule.services.soap.impl.generator.attachment.AttachmentResponseEnricher;
+
 import org.w3c.dom.Document;
+
 import ru.yandex.qatools.allure.annotations.Description;
 
 abstract class ResponseEnricherTestCase extends WscUnitTestCase {

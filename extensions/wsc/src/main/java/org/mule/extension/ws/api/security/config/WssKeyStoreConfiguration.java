@@ -6,19 +6,11 @@
  */
 package org.mule.extension.ws.api.security.config;
 
-import static org.apache.ws.security.components.crypto.Merlin.KEYSTORE_ALIAS;
-import static org.apache.ws.security.components.crypto.Merlin.KEYSTORE_FILE;
-import static org.apache.ws.security.components.crypto.Merlin.KEYSTORE_PASSWORD;
-import static org.apache.ws.security.components.crypto.Merlin.KEYSTORE_PRIVATE_PASSWORD;
-import static org.apache.ws.security.components.crypto.Merlin.KEYSTORE_TYPE;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.Password;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
-
-import java.util.Properties;
-
-import org.apache.ws.security.components.crypto.Merlin;
+import org.mule.services.soap.api.security.config.WssStoreConfiguration;
 
 /**
  * Default {@link WssStoreConfiguration} implementation for Key Stores, used for encryption, decryption and signing.
@@ -87,24 +79,5 @@ public class WssKeyStoreConfiguration implements WssStoreConfiguration {
   @Override
   public String getType() {
     return type;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Properties getConfigurationProperties() {
-    Properties properties = new Properties();
-    properties.setProperty(WS_CRYPTO_PROVIDER_KEY, Merlin.class.getCanonicalName());
-    properties.setProperty(KEYSTORE_TYPE, type);
-    properties.setProperty(KEYSTORE_PASSWORD, password);
-    properties.setProperty(KEYSTORE_ALIAS, alias);
-    properties.setProperty(KEYSTORE_FILE, keyStorePath);
-
-    if (keyPassword != null) {
-      properties.setProperty(KEYSTORE_PRIVATE_PASSWORD, keyPassword);
-    }
-
-    return properties;
   }
 }

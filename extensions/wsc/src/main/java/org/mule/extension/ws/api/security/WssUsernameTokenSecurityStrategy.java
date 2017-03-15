@@ -36,7 +36,8 @@ import org.apache.ws.security.handler.WSHandlerConstants;
  *
  * @since 4.0
  */
-public class WssUsernameTokenSecurityStrategy implements SecurityStrategy {
+public class WssUsernameTokenSecurityStrategy implements SecurityStrategyAdapter
+{
 
   /**
    * The username required to authenticate with the service.

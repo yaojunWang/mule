@@ -10,21 +10,24 @@ import static org.apache.ws.security.handler.WSHandlerConstants.ENCRYPT;
 import static org.apache.ws.security.handler.WSHandlerConstants.ENCRYPTION_USER;
 import static org.apache.ws.security.handler.WSHandlerConstants.ENC_PROP_REF_ID;
 import static org.mule.extension.ws.internal.security.SecurityStrategyType.OUTGOING;
+
+import java.util.Map;
+
 import org.mule.extension.ws.api.security.config.WssKeyStoreConfiguration;
 import org.mule.extension.ws.internal.security.SecurityStrategyType;
 import org.mule.extension.ws.internal.security.callback.WSPasswordCallbackHandler;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
+import org.mule.services.soap.api.security.SecurityStrategy;
 
 import com.google.common.collect.ImmutableMap;
-
-import java.util.Map;
 
 /**
  * Verifies the signature of a SOAP response, using certificates of the trust-store in the provided TLS context.
  *
  * @since 4.0
  */
-public class WssEncryptSecurityStrategy implements SecurityStrategy {
+public class WssEncryptSecurityStrategy implements SecurityStrategy
+{
 
   private static final String WS_ENCRYPT_PROPERTIES_KEY = "encryptProperties";
 

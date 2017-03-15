@@ -31,7 +31,8 @@ import org.apache.ws.security.components.crypto.Merlin;
  *
  * @since 4.0
  */
-public class WssVerifySignatureSecurityStrategy implements SecurityStrategy {
+public class WssVerifySignatureSecurityStrategy implements SecurityStrategyAdapter
+{
 
   private static final String WS_VERIFY_SIGNATURE_PROPERTIES_KEY = "verifySignatureProperties";
 
