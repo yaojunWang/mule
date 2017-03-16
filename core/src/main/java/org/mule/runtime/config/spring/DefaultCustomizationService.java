@@ -10,8 +10,8 @@ import static java.util.Collections.unmodifiableMap;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang.StringUtils.isEmpty;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
-import org.mule.runtime.core.api.CustomService;
-import org.mule.runtime.core.api.CustomizationService;
+import org.mule.runtime.api.config.custom.CustomService;
+import org.mule.runtime.api.config.custom.CustomizationService;
 
 import java.util.HashMap;
 import java.util.Map;

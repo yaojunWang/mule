@@ -50,6 +50,9 @@ import static org.mule.runtime.core.api.config.MuleProperties.QUEUE_STORE_DEFAUL
 import static org.mule.runtime.core.api.config.MuleProperties.QUEUE_STORE_DEFAULT_PERSISTENT_NAME;
 import static org.mule.runtime.core.config.bootstrap.ArtifactType.APP;
 import static org.springframework.beans.factory.support.BeanDefinitionBuilder.genericBeanDefinition;
+import org.mule.runtime.api.config.custom.CustomService;
+import org.mule.runtime.api.config.custom.CustomizationService;
+import org.mule.runtime.api.config.custom.ServiceConfigurator;
 import org.mule.runtime.api.lifecycle.InitialisationException;
 import org.mule.runtime.config.spring.factories.ConstantFactoryBean;
 import org.mule.runtime.config.spring.factories.ExtensionManagerFactoryBean;
@@ -57,8 +60,6 @@ import org.mule.runtime.config.spring.factories.TransactionManagerFactoryBean;
 import org.mule.runtime.config.spring.processors.MuleObjectNameProcessor;
 import org.mule.runtime.config.spring.processors.ParentContextPropertyPlaceholderProcessor;
 import org.mule.runtime.config.spring.processors.PropertyPlaceholderProcessor;
-import org.mule.runtime.core.api.CustomService;
-import org.mule.runtime.core.api.CustomizationService;
 import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.context.notification.ConnectionNotificationListener;
 import org.mule.runtime.core.api.context.notification.CustomNotificationListener;
@@ -96,6 +97,7 @@ import org.mule.runtime.core.management.stats.DefaultProcessingTimeWatcher;
 import org.mule.runtime.core.policy.DefaultPolicyManager;
 import org.mule.runtime.core.policy.DefaultPolicyStateHandler;
 import org.mule.runtime.core.processor.interceptor.DefaultProcessorInterceptorManager;
+import org.mule.runtime.core.registry.SpiServiceRegistry;
 import org.mule.runtime.core.retry.policies.NoRetryPolicyTemplate;
 import org.mule.runtime.core.security.DefaultMuleSecurityManager;
 import org.mule.runtime.core.util.DefaultStreamCloserService;
@@ -230,6 +232,8 @@ class SpringMuleContextServiceConfigurator {
 
   void createArtifactServices() {
     registerBeanDefinition(OBJECT_CONFIGURATION_COMPONENT_LOCATOR, getConstantObjectBeanDefinition(componentLocator));
+    loadServiceConfigurators();
+    
     defaultContextServices.entrySet().stream()
         .filter(service -> !APPLICATION_ONLY_SERVICES.contains(service.getKey()) || artifactType.equals(APP))
         .forEach(service -> registerBeanDefinition(service.getKey(), service.getValue()));
@@ -239,6 +243,12 @@ class SpringMuleContextServiceConfigurator {
     createQueueStoreBeanDefinitions();
     createQueueManagerBeanDefinitions();
     createCustomServices();
+  }
+
+  private void loadServiceConfigurators() {
+    new SpiServiceRegistry()
+        .lookupProviders(ServiceConfigurator.class, Thread.currentThread().getContextClassLoader())
+        .forEach(customizer -> customizer.configure(customizationService));
   }
 
   private void createCustomServices() {
