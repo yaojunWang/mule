@@ -7,15 +7,34 @@
 package org.mule.services.soap.generator;
 
 import static java.util.Arrays.asList;
+import org.mule.metadata.xml.XmlTypeLoader;
+import org.mule.services.soap.AbstractSoapServiceTestCase;
 import org.mule.services.soap.SoapTestUtils;
-import org.mule.services.soap.SoapUnitTestCase;
 import org.mule.services.soap.api.message.SoapAttachment;
 import org.mule.services.soap.generator.attachment.AttachmentRequestEnricher;
+import org.mule.services.soap.introspection.WsdlIntrospecter;
+
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import ru.yandex.qatools.allure.annotations.Description;
 
-public abstract class AbstractRequestEnricherTestCase extends SoapUnitTestCase {
+public abstract class AbstractRequestEnricherTestCase extends AbstractSoapServiceTestCase
+{
 
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
+
+  protected WsdlIntrospecter introspecter;
+  protected XmlTypeLoader loader;
+
+  @Before
+  public void setup() {
+    introspecter = new WsdlIntrospecter(defaultAddress + "?wsdl", "TestService", "TestPort");
+    loader = new XmlTypeLoader(introspecter.getSchemas());
+  }
+  
   @Test
   @Description("Enrich a request that contains attachments")
   public void enrich() throws Exception {

@@ -14,7 +14,7 @@ import org.apache.cxf.message.Exchange;
 public class MtomResponseEnricherTestCase extends ResponseEnricherTestCase {
 
   private static final String RESPONSE =
-      "<con:downloadAttachmentResponse xmlns:con=\"http://service.ws.extension.mule.org/\">"
+      "<con:downloadAttachmentResponse xmlns:con=\"http://service.soap.services.mule.org/\">"
           + "<attachment>"
           + "<xop:Include xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" href=\"cid:attachment-id\"/>"
           + "</attachment>"
