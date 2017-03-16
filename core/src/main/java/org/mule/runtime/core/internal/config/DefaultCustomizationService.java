@@ -4,13 +4,12 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.config.spring;
+package org.mule.runtime.core.internal.config;
 
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang.StringUtils.isEmpty;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
-import org.mule.runtime.api.config.custom.CustomService;
 import org.mule.runtime.api.config.custom.CustomizationService;
 
 import java.util.HashMap;
@@ -20,7 +19,7 @@ import java.util.Optional;
 /**
  * {@inheritDoc}
  */
-public class DefaultCustomizationService implements CustomizationService {
+public class DefaultCustomizationService implements CustomizationService, CustomServiceRegistry {
 
   private Map<String, CustomService> muleContextDefaultServices = new HashMap<>();
   private Map<String, CustomService> customServices = new HashMap<>();

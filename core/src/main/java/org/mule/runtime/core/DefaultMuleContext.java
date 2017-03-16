@@ -50,7 +50,7 @@ import org.mule.runtime.api.lifecycle.LifecycleException;
 import org.mule.runtime.api.lifecycle.Startable;
 import org.mule.runtime.api.lifecycle.Stoppable;
 import org.mule.runtime.api.lock.LockFactory;
-import org.mule.runtime.config.spring.DefaultCustomizationService;
+import org.mule.runtime.core.internal.config.DefaultCustomizationService;
 import org.mule.runtime.api.config.custom.CustomizationService;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.Injector;
