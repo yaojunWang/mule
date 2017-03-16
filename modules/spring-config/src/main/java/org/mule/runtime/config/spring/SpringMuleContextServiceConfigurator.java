@@ -315,11 +315,14 @@ class SpringMuleContextServiceConfigurator {
     AtomicBoolean anyBaseStoreWasRedefined = new AtomicBoolean(false);
     OBJECT_STORE_NAME_TO_LOCAL_OBJECT_STORE_NAME.entrySet().forEach(objectStoreLocal -> {
       customServiceRegistry.getOverriddenService(objectStoreLocal.getKey()).ifPresent(customService -> {
-        beanDefinitionRegistry.registerAlias(objectStoreLocal.getKey(), objectStoreLocal.getValue());
+        //beanDefinitionRegistry.registerAlias(objectStoreLocal.getKey(), objectStoreLocal.getValue());
         customService.getServiceClass().ifPresent(serviceClass -> {
           anyBaseStoreWasRedefined.set(true);
+          final BeanDefinition defaultBeanDefinition = defaultContextServices.get(objectStoreLocal.getKey());
           beanDefinitionRegistry.registerBeanDefinition(objectStoreLocal.getValue(),
-                                                        defaultContextServices.get(objectStoreLocal.getKey()));
+                                                        defaultBeanDefinition);
+          beanDefinitionRegistry.registerBeanDefinition(objectStoreLocal.getKey(),
+                                                        defaultBeanDefinition);
         });
       });
     });
