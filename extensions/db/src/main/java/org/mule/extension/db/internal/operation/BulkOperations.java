@@ -33,6 +33,7 @@ import org.mule.extension.db.internal.util.DefaultFileReader;
 import org.mule.runtime.extension.api.annotation.metadata.TypeResolver;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.UseConfig;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
@@ -67,7 +68,8 @@ public class BulkOperations extends BaseDbOperations {
       order = 1) @TypeResolver(DbBulkInputMetadataResolver.class) List<Map<String, Object>> parameterValues,
                           @ParameterGroup(name = QUERY_GROUP) BulkQueryDefinition query,
                           @UseConfig DbConnector connector,
-                          @Connection DbConnection connection)
+                          @Connection DbConnection connection,
+                          @Optional List<String> samples)
       throws SQLException {
 
     return singleQueryBulk(query, parameterValues, INSERT, connector, connection);

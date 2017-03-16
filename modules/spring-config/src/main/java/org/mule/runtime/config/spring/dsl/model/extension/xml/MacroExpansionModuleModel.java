@@ -13,6 +13,9 @@ import static org.mule.metadata.api.utils.MetadataTypeUtils.isVoid;
 import static org.mule.runtime.api.component.ComponentIdentifier.builder;
 import static org.mule.runtime.config.spring.dsl.model.ApplicationModel.NAME_ATTRIBUTE;
 import static org.mule.runtime.config.spring.dsl.model.ApplicationModel.REFERENCE_ATTRIBUTE;
+import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
+import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
+import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
 import org.mule.runtime.api.component.ComponentIdentifier;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
@@ -200,7 +203,7 @@ public class MacroExpansionModuleModel {
 
     ComponentModel.Builder processorChainBuilder = new ComponentModel.Builder();
     processorChainBuilder
-        .setIdentifier(builder().withPrefix("mule").withName("module-operation-chain").build());
+        .setIdentifier(builder().withPrefix(CORE_PREFIX).withName("module-operation-chain").build());
 
 
     processorChainBuilder.addParameter("returnsVoid", String.valueOf(isVoid(operationModel.getOutput().getType())), false);
@@ -229,14 +232,14 @@ public class MacroExpansionModuleModel {
   private ComponentModel getParameterChild(Map<String, String> parameters, String wrapperParameters, String entryParameter) {
     ComponentModel.Builder parametersBuilder = new ComponentModel.Builder();
     parametersBuilder
-        .setIdentifier(builder().withPrefix("mule").withName(wrapperParameters).build());
+        .setIdentifier(builder().withPrefix(CORE_PREFIX).withName(wrapperParameters).build());
     parameters.forEach((paramName, paramValue) -> {
       ComponentModel.Builder parameterBuilder = new ComponentModel.Builder();
-      parameterBuilder.setIdentifier(builder().withPrefix("mule")
+      parameterBuilder.setIdentifier(builder().withPrefix(CORE_PREFIX)
           .withName(entryParameter).build());
 
-      parameterBuilder.addParameter("key", paramName, false);
-      parameterBuilder.addParameter("value", paramValue, false);
+      parameterBuilder.addParameter(KEY_ATTRIBUTE_NAME, paramName, false);
+      parameterBuilder.addParameter(VALUE_ATTRIBUTE_NAME, paramValue, false);
       parametersBuilder.addChildComponentModel(parameterBuilder.build());
     });
 
