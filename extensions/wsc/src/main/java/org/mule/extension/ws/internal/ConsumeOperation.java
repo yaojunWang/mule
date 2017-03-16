@@ -28,7 +28,7 @@ import org.mule.services.soap.api.client.SoapClient;
 import org.mule.services.soap.api.message.SoapRequest;
 import org.mule.services.soap.api.message.SoapRequestBuilder;
 import org.mule.services.soap.api.message.SoapResponse;
-import org.mule.services.soap.impl.exception.SoapFaultException;
+import org.mule.services.soap.exception.SoapFaultException;
 
 /**
  * The only {@link WebServiceConsumer} operation. the {@link ConsumeOperation} consumes an operation of the connected web service

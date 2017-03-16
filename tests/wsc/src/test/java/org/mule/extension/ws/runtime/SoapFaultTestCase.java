@@ -13,16 +13,15 @@ import static org.hamcrest.Matchers.isOneOf;
 import static org.junit.Assert.assertThat;
 import static org.mule.extension.ws.WscTestUtils.FAIL;
 import static org.mule.extension.ws.WscTestUtils.getRequestResource;
-import static org.mule.extension.ws.api.SoapVersion.SOAP11;
 import static org.mule.extension.ws.api.exception.WscErrors.BAD_REQUEST;
 import static org.mule.extension.ws.api.exception.WscErrors.SOAP_FAULT;
+import static org.mule.services.soap.api.SoapVersion.SOAP11;
 import static org.mule.tck.junit4.matcher.ErrorTypeMatcher.errorType;
 import org.mule.extension.ws.AbstractSoapServiceTestCase;
-import org.mule.extension.ws.api.exception.BadRequestException;
-import org.mule.extension.ws.api.exception.SoapFault;
-import org.mule.extension.ws.api.exception.SoapFaultException;
 import org.mule.runtime.api.message.Error;
 import org.mule.runtime.core.exception.MessagingException;
+import org.mule.services.soap.exception.BadRequestException;
+import org.mule.services.soap.exception.SoapFaultException;
 
 import org.junit.Test;
 import ru.yandex.qatools.allure.annotations.Description;
@@ -52,10 +51,8 @@ public class SoapFaultTestCase extends AbstractSoapServiceTestCase {
     assertThat(causeException, instanceOf(SoapFaultException.class));
     SoapFaultException sf = (SoapFaultException) causeException;
 
-    SoapFault fault = (SoapFault) sf.getErrorMessage().getPayload().getValue();
-
     // Receiver is for SOAP12. Server is for SOAP11
-    assertThat(fault.getFaultCode().getLocalPart(), isOneOf("Server", "Receiver"));
+    assertThat(sf.getFaultCode().getLocalPart(), isOneOf("Server", "Receiver"));
     assertThat(sf.getMessage(), containsString("Fail Message"));
   }
 
@@ -70,10 +67,9 @@ public class SoapFaultTestCase extends AbstractSoapServiceTestCase {
     assertThat(error.getErrorType(), is(errorType("WSC", SOAP_FAULT.getType())));
     assertThat(error.getCause(), instanceOf(SoapFaultException.class));
     SoapFaultException sf = (SoapFaultException) error.getCause();
-    SoapFault fault = (SoapFault) sf.getErrorMessage().getPayload().getValue();
 
     // Sender is for SOAP12. Client is for SOAP11
-    assertThat(fault.getFaultCode().getLocalPart(), isOneOf("Client", "Sender"));
+    assertThat(sf.getFaultCode().getLocalPart(), isOneOf("Client", "Sender"));
 
     String errorMessage;
     if (soapVersion.equals(SOAP11)) {

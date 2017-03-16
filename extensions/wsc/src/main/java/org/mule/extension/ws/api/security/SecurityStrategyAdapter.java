@@ -16,8 +16,7 @@ import org.mule.services.soap.api.security.SecurityStrategy;
  *
  * @since 4.0
  */
-public interface SecurityStrategyAdapter
-{
+public interface SecurityStrategyAdapter {
 
   /**
    * Returns the security action name that is going to be executed in the request phase (OUT interceptors).

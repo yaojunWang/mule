@@ -17,7 +17,6 @@ import org.mule.extension.ws.service.Soap11Service;
 import org.mule.extension.ws.service.Soap12Service;
 import org.mule.functional.junit4.MuleArtifactFunctionalTestCase;
 import org.mule.runtime.api.message.Message;
-import org.mule.services.soap.api.SoapVersion;
 import org.mule.tck.junit4.rule.DynamicPort;
 import org.mule.tck.junit4.rule.SystemProperty;
 import org.mule.test.runner.ArtifactClassLoaderRunnerConfig;
@@ -29,6 +28,7 @@ import javax.xml.ws.Endpoint;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.binding.soap.SoapVersion;
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
 import org.custommonkey.xmlunit.XMLUnit;

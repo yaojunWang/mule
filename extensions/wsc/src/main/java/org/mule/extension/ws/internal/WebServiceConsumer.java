@@ -7,6 +7,7 @@
 package org.mule.extension.ws.internal;
 
 import org.mule.extension.ws.api.exception.WscErrors;
+import org.mule.extension.ws.api.security.SecurityStrategyAdapter;
 import org.mule.extension.ws.api.security.WssDecryptSecurityStrategy;
 import org.mule.extension.ws.api.security.WssEncryptSecurityStrategy;
 import org.mule.extension.ws.api.security.WssSignSecurityStrategy;
@@ -22,7 +23,6 @@ import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypes;
 import org.mule.runtime.extension.api.annotation.param.DefaultEncoding;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.services.soap.api.security.SecurityStrategy;
 
 /**
  * Web Service Consumer extension used to consume SOAP web services.
@@ -32,7 +32,7 @@ import org.mule.services.soap.api.security.SecurityStrategy;
 @ErrorTypes(WscErrors.class)
 @Operations(ConsumeOperation.class)
 @ConnectionProviders(WscConnectionProvider.class)
-@SubTypeMapping(baseType = SecurityStrategy.class,
+@SubTypeMapping(baseType = SecurityStrategyAdapter.class,
     subTypes = {WssDecryptSecurityStrategy.class, WssEncryptSecurityStrategy.class, WssSignSecurityStrategy.class,
         WssUsernameTokenSecurityStrategy.class, WssTimestampSecurityStrategy.class, WssVerifySignatureSecurityStrategy.class})
 @Extension(name = "Web Service Consumer")
