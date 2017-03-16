@@ -233,7 +233,7 @@ class SpringMuleContextServiceConfigurator {
   void createArtifactServices() {
     registerBeanDefinition(OBJECT_CONFIGURATION_COMPONENT_LOCATOR, getConstantObjectBeanDefinition(componentLocator));
     loadServiceConfigurators();
-    
+
     defaultContextServices.entrySet().stream()
         .filter(service -> !APPLICATION_ONLY_SERVICES.contains(service.getKey()) || artifactType.equals(APP))
         .forEach(service -> registerBeanDefinition(service.getKey(), service.getValue()));
